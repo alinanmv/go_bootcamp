@@ -57,4 +57,53 @@ Go has only one looping keyword, `for`, but it covers all the usual loop forms:
   }
   ```
 - `break` — exits the loop immediately, skipping everything after it in the loop body and any remaining iterations (similar to how `return` immediately exits a function).
-- `continue` — skips the rest of the current iteration and jumps straight to the next one (re-checks the condition / runs the post statement), without exiting the loop entirely. 
+- `continue` — skips the rest of the current iteration and jumps straight to the next one (re-checks the condition / runs the post statement), without exiting the loop entirely.
+
+## Pointers
+A pointer is a variable that stores the **memory address** of another variable, instead of storing a value directly.
+
+- `&variable` — the **address-of** operator. Gives you the address where `variable` is stored (a pointer to it).
+- `*Type` — declares a variable's type as "pointer to `Type`".
+- `*pointer` — the **dereference** operator. Used on a pointer, it gives you the value stored at that address (read or write through the pointer).
+
+```go
+x := 10
+p := &x        // p is of type *int, holds the address of x
+fmt.Println(p)  // prints an address, e.g. 0xc0000140a0
+fmt.Println(*p) // dereference: prints 10 (the value at that address)
+
+*p = 20        // writes through the pointer
+fmt.Println(x) // 20 — x itself changed, because p points at it
+```
+
+- The zero value of a pointer is `nil` (points at nothing). Dereferencing a `nil` pointer panics at runtime.
+  ```go
+  var p *int
+  fmt.Println(p)  // <nil>
+  fmt.Println(*p) // panic: runtime error
+  ```
+
+**Why use pointers — passing by reference:**
+Go passes arguments **by value** by default — a function gets a *copy* of whatever you pass in, so changes made inside the function don't affect the original variable. Passing a pointer lets a function modify the caller's original variable instead of a copy:
+
+```go
+func double(n int) {
+    n = n * 2 // only changes the local copy
+}
+
+func doubleByPointer(n *int) {
+    *n = *n * 2 // changes the original value via its address
+}
+
+func main() {
+    x := 5
+    double(x)
+    fmt.Println(x) // 5 — unchanged
+
+    doubleByPointer(&x)
+    fmt.Println(x) // 10 — changed
+}
+```
+
+- Pointers are also used to **avoid copying large values** (structs) on every function call — passing a pointer copies just the address, not the whole struct.
+- With a pointer to a struct, Go lets you access fields directly without manual dereferencing — `p.Field` is shorthand for `(*p).Field`.
