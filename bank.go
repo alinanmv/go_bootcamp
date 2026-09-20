@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"example.com/bank/fileops"
+	"github.com/Pallinder/go-randomdata"
 )
 
 func main() {
@@ -14,6 +15,7 @@ func main() {
 
 	}
 	fmt.Println("WELCOME TO GO BANK")
+	fmt.Println(randomdata.PhoneNumber())
 
 	for {
 		presentOptions()
