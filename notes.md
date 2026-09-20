@@ -36,3 +36,25 @@
       // handle err
   }
   ```
+## for loop
+Go has only one looping keyword, `for`, but it covers all the usual loop forms:
+- Standard three-part form — init; condition; post:
+  ```go
+  for i := 0; i < 10; i++ {
+      // runs while i < 10
+  }
+  ```
+- Condition-only form (like a `while` loop) — just the condition, no init/post:
+  ```go
+  for i < 10 {
+      i++
+  }
+  ```
+- No condition at all — an **infinite loop**; it runs forever unless stopped from inside:
+  ```go
+  for {
+      // loops forever
+  }
+  ```
+- `break` — exits the loop immediately, skipping everything after it in the loop body and any remaining iterations (similar to how `return` immediately exits a function).
+- `continue` — skips the rest of the current iteration and jumps straight to the next one (re-checks the condition / runs the post statement), without exiting the loop entirely. 
