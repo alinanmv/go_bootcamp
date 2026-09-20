@@ -21,12 +21,29 @@ func main() {
 		var depositMoney float64
 		fmt.Print("Enter Money for Deposit: ")
 		fmt.Scan(&depositMoney)
+		if depositMoney <= 0 {
+			fmt.Println("Please enter a positive amount")
+			return
+		}
+		if depositMoney > accountBalance {
+			fmt.Println("invalid input. deposit input can not be higher than account balance")
+			return
+		}
 		accountBalance += depositMoney
 		fmt.Println("Updated account balance:", accountBalance)
+
 	} else if choice == 3 {
 		var withdrawMoney float64
 		fmt.Print("Enter Money for Withdraw: ")
 		fmt.Scan(&withdrawMoney)
+		if withdrawMoney <= 0 {
+			fmt.Println("Please enter a positive amount")
+			return
+		}
+		if withdrawMoney > accountBalance {
+			fmt.Println("invalid input. withdraw input can not be higher than account balance")
+			return
+		}
 		accountBalance -= withdrawMoney
 		fmt.Println("Updated account balance:", accountBalance)
 	} else {
