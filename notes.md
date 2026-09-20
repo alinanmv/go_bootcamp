@@ -13,6 +13,12 @@
 ## Variables & constants
 - Declare with `var name type`, or use `:=` to let Go infer the type.
 - Constants (`const`) can be computed at compile time.
+- **Zero value ("null value")** — every type has a default value it's automatically set to if a variable is declared without an explicit assignment:
+  - `int` → `0`
+  - `float64` → `0.0`
+  - `string` → `""`
+  - `bool` → `false`
+  - pointer → `nil` — a special built-in value representing the absence of an address (a pointer pointing at no memory location).
 
 ## fmt package
 - `Print` — prints args as-is; adds a space between two operands only if neither is a string; no trailing newline.
