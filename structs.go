@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -24,17 +25,18 @@ type User struct {
 func (u *User) getUserOutput() {
 	fmt.Println(u.firstName, u.lastName, u.birthDate, u.createdAt)
 }
-func (u *User) clearUserName() {
-	u.firstName = ""
-	u.lastName = ""
-}
-func newUser(firstName, lastName, birthday string) *User {
+
+func newUser(firstName, lastName, birthday string) (*User, error) {
+	if firstName == "" || lastName == "" || birthday == "" {
+		return nil, errors.New("all fields are required")
+	}
+
 	return &User{
 		firstName: firstName,
 		lastName:  lastName,
 		birthDate: birthday,
 		createdAt: time.Now(),
-	}
+	}, nil
 }
 func main() {
 	userFirstName := getUserInput("first name:")
@@ -43,7 +45,11 @@ func main() {
 
 	var appUser *User
 
-	appUser = newUser(userFirstName, userLastName, userBirthday)
+	appUser, error := newUser(userFirstName, userLastName, userBirthday)
+	if error != nil {
+		fmt.Println(error)
+		return
+	}
 	appUser.getUserOutput()
 	saveUserToFile(appUser.firstName, appUser.lastName, appUser.birthDate, appUser.createdAt)
 }
@@ -51,6 +57,6 @@ func main() {
 func getUserInput(promptText string) string {
 	fmt.Println(promptText)
 	var value string
-	fmt.Scan(&value)
+	fmt.Scanln(&value)
 	return value
 }
