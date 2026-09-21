@@ -1,10 +1,11 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"time"
+
+	"example/bootcamp/user"
 )
 
 const file = "users.txt"
@@ -15,43 +16,20 @@ func saveUserToFile(firstName, lastName, birthDate string, createdAt time.Time) 
 	os.WriteFile(file, []byte(userText), 0644)
 }
 
-type User struct {
-	firstName string
-	lastName  string
-	birthDate string
-	createdAt time.Time
-}
-
-func (u *User) getUserOutput() {
-	fmt.Println(u.firstName, u.lastName, u.birthDate, u.createdAt)
-}
-
-func newUser(firstName, lastName, birthday string) (*User, error) {
-	if firstName == "" || lastName == "" || birthday == "" {
-		return nil, errors.New("all fields are required")
-	}
-
-	return &User{
-		firstName: firstName,
-		lastName:  lastName,
-		birthDate: birthday,
-		createdAt: time.Now(),
-	}, nil
-}
 func main() {
 	userFirstName := getUserInput("first name:")
 	userLastName := getUserInput("last name:")
 	userBirthday := getUserInput("birthday:")
 
-	var appUser *User
+	var appUser *user.User
 
-	appUser, error := newUser(userFirstName, userLastName, userBirthday)
+	appUser, error := user.NewUser(userFirstName, userLastName, userBirthday)
 	if error != nil {
 		fmt.Println(error)
 		return
 	}
-	appUser.getUserOutput()
-	saveUserToFile(appUser.firstName, appUser.lastName, appUser.birthDate, appUser.createdAt)
+	appUser.GetUserOutput()
+	saveUserToFile(appUser.FirstName, appUser.LastName, appUser.BirthDate, appUser.CreatedAt)
 }
 
 func getUserInput(promptText string) string {
