@@ -23,13 +23,17 @@ func main() {
 
 	var appUser *user.User
 
-	appUser, error := user.NewUser(userFirstName, userLastName, userBirthday)
+	appUser, error := user.New(userFirstName, userLastName, userBirthday)
+	admin := user.NewAdmin("admin", "password123")
+	admin.GetUserOutput()
 	if error != nil {
 		fmt.Println(error)
 		return
 	}
 	appUser.GetUserOutput()
-	saveUserToFile(appUser.FirstName, appUser.LastName, appUser.BirthDate, appUser.CreatedAt)
+
+	saveUserToFile(userFirstName, userLastName, userBirthday, time.Now())
+
 }
 
 func getUserInput(promptText string) string {
