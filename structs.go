@@ -21,25 +21,31 @@ type User struct {
 	createdAt time.Time
 }
 
+func (u *User) getUserOutput() {
+	fmt.Println(u.firstName, u.lastName, u.birthDate, u.createdAt)
+}
+func (u *User) clearUserName() {
+	u.firstName = ""
+	u.lastName = ""
+}
+func newUser(firstName, lastName, birthday string) *User {
+	return &User{
+		firstName: firstName,
+		lastName:  lastName,
+		birthDate: birthday,
+		createdAt: time.Now(),
+	}
+}
 func main() {
 	userFirstName := getUserInput("first name:")
 	userLastName := getUserInput("last name:")
 	userBirthday := getUserInput("birthday:")
 
-	var appUser User
+	var appUser *User
 
-	appUser = User{
-		firstName: userFirstName,
-		lastName:  userLastName,
-		birthDate: userBirthday,
-		createdAt: time.Now(),
-	}
-	getUserOutput(appUser)
+	appUser = newUser(userFirstName, userLastName, userBirthday)
+	appUser.getUserOutput()
 	saveUserToFile(appUser.firstName, appUser.lastName, appUser.birthDate, appUser.createdAt)
-}
-
-func getUserOutput(u User) {
-	fmt.Println(u.firstName, u.lastName, u.birthDate, u.createdAt)
 }
 
 func getUserInput(promptText string) string {
